@@ -6,6 +6,7 @@ const secret ='new-chat-app'
 
 exports.getUser = async(req,res,next)=>{
     const userData = req.body;
+
     try{
        let user = await User.findOne({where :{email : userData.email}})
        if(!user){
