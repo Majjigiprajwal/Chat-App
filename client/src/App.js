@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal'
 import Signin from './components/Auth/Signin';
 import Signup from './components/Auth/Signup';
-import Homw from './components/Chat/Homw';
+import Home from './pages/Home';
 
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
    <Routes>
     <Route path="/" element={<Signin />} />
     <Route path="/signup" element={<Signup />} />
-    <Route path="/home" element={<Homw />} />
+    <Route path="/home" element={<Home />} />
    </Routes>
    </>
   );
