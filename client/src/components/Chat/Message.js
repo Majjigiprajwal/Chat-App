@@ -17,6 +17,7 @@ const Message = () => {
                   'Authorization': `Bearer ${token}`
                 }
                })
+               console.log(data)
                setMessage(data)
 
              }
@@ -34,7 +35,11 @@ const Message = () => {
              }
         }
              getMessages()
-  },[])
+
+             const intervalId = setInterval(getMessages, 1000);
+             return () => clearInterval(intervalId);
+
+  },[token])
   
   return (
     <>

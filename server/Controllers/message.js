@@ -1,4 +1,4 @@
-const Messsage = require('../Models/message')
+const Message = require('../Models/message')
 
 
 exports.postMessage = async (req,res,next)=>{
@@ -16,7 +16,7 @@ exports.postMessage = async (req,res,next)=>{
 exports.getMessages = async (req,res,next)=>{
     const user = req.user;
     try{
-         const response = await user.getMessages()
+         const response = await Message.findAll()
          return res.status(200).json({success:true,message:'messsage fetched Successfully',data:response})
     }
     catch(error){
