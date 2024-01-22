@@ -9,7 +9,7 @@ const ChatWindow = () => {
       <div className="w-full h-14">
         <ChatHeader />
       </div>
-      <div className="w-full h-5/6 overflow-hidden overflow-y-auto mt-2 ">
+      <div className="w-full h-5/6 overflow-hidden overflow-y-auto pl-6 pr-6 mt-1 ">
       <Message  />
       </div>
       <div className="w-full h-1/6 flex justify-center items-center">

@@ -1,5 +1,6 @@
 const Message = require('../Models/message')
-
+const User = require('../Models/user')
+const {Op} = require('sequelize')
 
 exports.postMessage = async (req,res,next)=>{
     const user = req.user;
@@ -15,8 +16,19 @@ exports.postMessage = async (req,res,next)=>{
 
 exports.getMessages = async (req,res,next)=>{
     const user = req.user;
+    const messageId = Number(req.query.lastMessageId)
     try{
-         const response = await Message.findAll()
+         const response = await Message.findAll({where: {
+          id: {
+            [Op.gt]: messageId,
+          },
+        }, include: [
+            {
+              model: User,
+              attributes: ['name'],
+              as:'user'
+            },
+          ],})
          return res.status(200).json({success:true,message:'messsage fetched Successfully',data:response})
     }
     catch(error){
