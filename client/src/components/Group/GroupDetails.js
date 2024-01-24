@@ -18,11 +18,9 @@ const GroupDetails = ({group}) => {
                   'Authorization': `Bearer ${token}`
                 }
               }) 
-              setGroupMembers(response.data.data)
-              console.log(response.data.data)
               const adminMember = response.data.data.find((member) => member.group.admin === member.user.id);
                   if (adminMember) {
-                     setAdmin(adminMember);
+                     setAdmin(()=>adminMember);
                      const userData = parseJwt(token)
                      if(userData.userId === adminMember.group.admin){
                                 setIsAdmin(true)
@@ -30,6 +28,7 @@ const GroupDetails = ({group}) => {
                         setIsAdmin(false)
                        }
                    }   
+                   setGroupMembers((prev)=>response.data.data)
             }
             catch(error){
                console.log(error)

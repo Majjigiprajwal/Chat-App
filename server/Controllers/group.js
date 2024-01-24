@@ -97,6 +97,21 @@ exports.getGroupMembers = async (req,res,next)=>{
              return res.status(200).json({success:true,message:'Fetched groupMembers successfully',data:response})
      }
      catch(error){
-       return res.status(500).json()
+       return res.status(500).json({success:false,message:'failed to fetch members'})
+     }
+}
+
+exports.deleteGroupMember = async (req,res,next)=>{
+      const userId = req.body.userId;
+      const groupId = req.body.groupId
+     try{
+            const response = await GroupMember.destroy({where : {
+              userId : userId,
+              groupId : groupId
+            }})
+            return res.status(200).json({success:true,message:'Successfully removed from group',data:response})
+     }
+     catch(error){
+      return res.status(500).json({success:false,message:'Failed to remove from group'})
      }
 }

@@ -14,4 +14,6 @@ router.get('/groupMembers',isAuth,groupController.getGroupMembers);
 
 router.post('/join-group',isAuth,groupController.joinGroup)
 
+router.post('/remove-groupMember',isAuth,groupController.deleteGroupMember)
+
 module.exports = router;
