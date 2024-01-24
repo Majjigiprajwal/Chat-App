@@ -17,8 +17,11 @@ exports.postMessage = async (req,res,next)=>{
 exports.getMessages = async (req,res,next)=>{
     const user = req.user;
     const messageId = Number(req.query.lastMessageId)
+    const groupId = Number(req.query.groupId)
+    console.log(groupId)
     try{
          const response = await Message.findAll({where: {
+          groupId: groupId,
           id: {
             [Op.gt]: messageId,
           },
@@ -29,6 +32,7 @@ exports.getMessages = async (req,res,next)=>{
               as:'user'
             },
           ],})
+          console.log(response)
          return res.status(200).json({success:true,message:'messsage fetched Successfully',data:response})
     }
     catch(error){

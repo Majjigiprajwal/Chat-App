@@ -3,7 +3,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { parseJwt } from '../../util/jwtParser';
 
-const Message = () => {
+
+const Message = ({group,openJoinGroupModal}) => {
 
   const [messages,setMessages] = useState([])
   const [userInfo,setUserInfo] = useState({
@@ -11,55 +12,57 @@ const Message = () => {
     userName:''
   })
 
-  const localMessages = JSON.parse(localStorage.getItem('messages'))
+  const localMessages = JSON.parse(localStorage.getItem(group.groupName))
 
   const lastMessageRef = useRef(null);
 
   const token = JSON.parse(localStorage.getItem('token'))
 
+
+
   const storeMessagesInLocalStorage = (data)=>{
+        if(data.length >0){
         if(!localMessages){
            if(data.length>=10){
                const newMessages = data.slice(-10);
-               localStorage.setItem('messages',JSON.stringify(newMessages))
+               localStorage.setItem(group.groupName,JSON.stringify(newMessages))
            }
            else{
-            localStorage.setItem('messages',JSON.stringify(data))
+            localStorage.setItem(group.groupName,JSON.stringify(data))
            }
         }
         else{
               if(data.length>=10){
-                localStorage.setItem('messages',JSON.stringify(data.slice(-10)))
+                localStorage.setItem(group.groupName,JSON.stringify(data.slice(-10)))
               }
               else{
         
                     if(localMessages.length === 10 ){
                       localMessages.splice(0,data.length)
                       const  newLocalMessages = localMessages.concat(data)
-                      localStorage.setItem('messages',JSON.stringify(newLocalMessages))
+                      localStorage.setItem(group.groupName,JSON.stringify(newLocalMessages))
                     }
                     else{
                       const noOfMessagesToBeStored = Number(10-Number(localMessages.length))
                       console.log(noOfMessagesToBeStored)
                       const newLocalMessages = localMessages.concat(data.slice(0,noOfMessagesToBeStored))
                       console.log(newLocalMessages)
-                      localStorage.setItem('messages',JSON.stringify(newLocalMessages))
+                      localStorage.setItem(group.groupName,JSON.stringify(newLocalMessages))
                     }
               }
         }
+      }
   }
 
         useEffect(()=>{
-
              const userData = parseJwt(token)
              setUserInfo({userId:userData.userId,userName:userData.userName})
   
-          
           },[token])
 
 
         useEffect(()=>{
-
+    
         const getMessages = async ()=>{
           let  lastMessageId =0;
           if(localMessages?.length>0){
@@ -67,16 +70,19 @@ const Message = () => {
            lastMessageId = localMessages[localMessages.length-1].id 
           }
              try{
-              const {data : {data}} = await  axios.get(`http://localhost:4000/get-messages?lastMessageId=${lastMessageId}`,{
+              console.log(group.id)
+              const {data : {data}} = await  axios.get(`http://localhost:4000/get-messages?lastMessageId=${lastMessageId}&&groupId=${group.id}`,{
                 headers :{
                   'Authorization': `Bearer ${token}`
                 }
                })
-               if(data.length > 0){
-                setMessages((prevMessages)=>([...prevMessages,...data]))
-                storeMessagesInLocalStorage(data)
+               if(localMessages?.length >0){
+                setMessages((prevMessages)=>([...localMessages,...data]))
                }
-               console.log(data)
+              else{
+                   setMessages((prev)=>([...data]))
+              }
+                storeMessagesInLocalStorage(data)
              }
              catch(error){
               console.log(error)
@@ -91,10 +97,12 @@ const Message = () => {
                 theme: "dark",
                 });
              }
-        }
-             getMessages()
+        }    
+           if(group){
+            getMessages()
+           }
 
-        },[])
+        },[group,token])
 
       useEffect(()=>{
 
@@ -106,7 +114,7 @@ const Message = () => {
     
     <div className="m-4 p-4 flex flex-col gap-5 ">
       {
-       messages.length > 0 && messages.map((message,index)=>{
+       group ? messages.length > 0 && messages.map((message,index)=>{
           return(userInfo.userId === message.userId ?  <div key={message.id} className="w-full h-full flex flex-col items-end gap-5 p-1" ref={index === messages.length - 1 ? lastMessageRef : null}>
           <div className="max-w-3/6 bg-green-300 flex flex-col overflow-hidden whitespace-normal rounded-tr-xl rounded-tl-xl rounded-bl-xl font-serif ">
                 <p className="text-sm font-semibold pl-2 pt-2 pr-2">{message.user.name}</p>
@@ -114,11 +122,14 @@ const Message = () => {
              </div>
             </div> : <div key={message.id} className="w-full h-full flex flex-col items-start gap-5 p-1 " ref={index === messages.length - 1 ? lastMessageRef : null} >
           <div className="max-w-3/6 bg-white  flex flex-col overflow-hidden whitespace-normal rounded-xl font-serif">
-          <p className="text-sm font-semibold pl-2 pt-2">{message.user.name}</p>
+          <p className="text-sm font-semibold pl-2 pt-2 pr-2">{message.user.name}</p>
           <p className="pl-3 pr-3 pt-1 pb-1 text-lg ">{message.message}</p>
           </div>
           </div> )
-        })
+        }) : <div className="text-black font-serif flex flex-col justify-center items-center mt-32 ">
+             <p className="text-2xl ">Click on the below Link to Join Groups</p>
+             <button className="text-white bg-black p-2 m-1 rounded-lg mt-5" onClick={()=>openJoinGroupModal()}>Join Groups</button>
+        </div>
       }
         </div>
   
