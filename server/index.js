@@ -3,8 +3,12 @@ const sequelize = require('./util/database')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const http = require('http');
+const { Server } = require("socket.io");
 
 const app = express();
+
+const server = http.createServer(app)
 
 app.use(cors());
 
@@ -43,10 +47,29 @@ GroupMember.belongsTo(Group)
 
 GroupMember.belongsTo(User);
 
+const io = new Server(server, {
+  cors: {origin:"http://localhost:3000", methods: ["GET", "POST"]},
+});
+
+
+io.on("connection", (socket) => {
+  console.log(`a user connected ${socket.id}`);
+  
+  socket.on("join-group", (data) => {
+      socket.join(data.groupName)
+
+  });
+  
+  socket.on('group-message',(message,group)=>{
+    io.to(group).emit('message', message);
+  })
+
+});
+
 
 sequelize.sync()
   .then((result)=>{
-    app.listen(4000,()=>{
+    server.listen(4000,()=>{
         console.log('running')
     })
   })

@@ -4,21 +4,15 @@ import { toast } from 'react-toastify';
 import { parseJwt } from '../../util/jwtParser';
 
 
-const Message = ({group,openJoinGroupModal}) => {
+const Message = ({group,openJoinGroupModal,socket,userInfo}) => {
 
   const [messages,setMessages] = useState([])
-  const [userInfo,setUserInfo] = useState({
-    userId:'',
-    userName:''
-  })
-
+ 
   const localMessages = JSON.parse(localStorage.getItem(group.groupName))
-
+   
   const lastMessageRef = useRef(null);
-
+  
   const token = JSON.parse(localStorage.getItem('token'))
-
-
 
   const storeMessagesInLocalStorage = (data)=>{
         if(data.length >0){
@@ -53,13 +47,16 @@ const Message = ({group,openJoinGroupModal}) => {
         }
       }
   }
+  useEffect(() => {
+    const handleIncomingMessage = (message) => {
+         setMessages((prevMessage)=>([...prevMessage,message]))
+    };
 
-        useEffect(()=>{
-             const userData = parseJwt(token)
-             setUserInfo({userId:userData.userId,userName:userData.userName})
-  
-          },[token])
-
+    socket.on('message', handleIncomingMessage);
+    return () => {
+      socket.off('message', handleIncomingMessage);
+    };
+  }, [socket]);
 
         useEffect(()=>{
     
@@ -82,6 +79,7 @@ const Message = ({group,openJoinGroupModal}) => {
               else{
                    setMessages((prev)=>([...data]))
               }
+                console.log(data)
                 storeMessagesInLocalStorage(data)
              }
              catch(error){
@@ -102,6 +100,8 @@ const Message = ({group,openJoinGroupModal}) => {
             getMessages()
            }
 
+           socket.emit('join-group',group)
+
         },[group,token])
 
       useEffect(()=>{
@@ -112,11 +112,11 @@ const Message = ({group,openJoinGroupModal}) => {
   
   return (
     
-    <div className="m-4 p-4 flex flex-col gap-5 ">
+    <div className="m-4 p-4 flex flex-col gap-5">
       {
        group ? messages.length > 0 && messages.map((message,index)=>{
-          return(userInfo.userId === message.userId ?  <div key={message.id} className="w-full h-full flex flex-col items-end gap-5 p-1" ref={index === messages.length - 1 ? lastMessageRef : null}>
-          <div className="max-w-3/6 bg-green-300 flex flex-col overflow-hidden whitespace-normal rounded-tr-xl rounded-tl-xl rounded-bl-xl font-serif ">
+          return(userInfo.userId === message.userId ?  <div key={message.id} className="w-full h-full flex flex-col text-white items-end gap-5 p-1" ref={index === messages.length - 1 ? lastMessageRef : null}>
+          <div className="max-w-3/6 bg-black flex flex-col overflow-hidden whitespace-normal rounded-tr-xl rounded-tl-xl rounded-bl-xl font-serif ">
                 <p className="text-sm font-semibold pl-2 pt-2 pr-2">{message.user.name}</p>
                 <p className="pl-3 pr-3 pt-1 pb-1 text-lg ">{message.message}</p>
              </div>

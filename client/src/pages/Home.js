@@ -9,9 +9,10 @@ import Modal from 'react-modal'
 import CreateGroups from '../Modals/CreateGroups'
 import JoinGroup from '../Modals/JoinGroup'
 import axios from 'axios';
+import io from "socket.io-client";
 
 const Home = () => {
-
+  const socket = io.connect("http://localhost:4000");
   const [isUpdateModal,setIsUpdateModal] = useState(false)
   const [isJoinGroupModal,setIsJoinGroupModal] = useState(false)
   const [groups,setGroups] = useState([])
@@ -66,7 +67,7 @@ const Home = () => {
         </div> 
       </div>
       <div className="w-3/5 h-screen bg-slate-200">
-         <ChatWindow  group={group} openJoinGroupModal={openJoinGroupModal}/>
+         <ChatWindow  group={group} openJoinGroupModal={openJoinGroupModal} socket={socket}/>
       </div>
       <div className="w-1/5 h-screen bg-white">
           <GroupDetails group={group} />

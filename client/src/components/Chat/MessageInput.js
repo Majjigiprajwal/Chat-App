@@ -4,11 +4,15 @@ import { MdAttachFile } from "react-icons/md";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const MessageInput = ({group}) => {
+const MessageInput = ({group,socket,userInfo}) => {
 
    const [message,setMessage] = useState({
     message : "",
-    groupId: group.id
+    groupId: group.id,
+    user :{
+      name : ''
+    },
+    userId : ''
    })
     
    const token = JSON.parse(localStorage.getItem('token'))
@@ -17,8 +21,12 @@ const MessageInput = ({group}) => {
     setMessage((prevMessage) => ({
       ...prevMessage,
       groupId: group.id,
+      user :{
+        name : userInfo.userName
+      },
+      userId : userInfo.userId
     }));
-  }, [group]);
+  }, [group,userInfo]);
 
    const handleChange = (e)=>{
     setMessage({
@@ -42,6 +50,7 @@ const MessageInput = ({group}) => {
         return;
     }
        try{
+           socket.emit('group-message',message,group.groupName)
            const response = await  axios.post('http://localhost:4000/send-message',message,{
             headers :{
               'Authorization': `Bearer ${token}`
@@ -70,7 +79,7 @@ const MessageInput = ({group}) => {
   return (
        <div className="w-3/5 h-1/2 gap-5 flex items-center">
        <div className="w-full h-full flex gap-2 justify-center items-center border border-solid border-1 rounded-xl bg-white">
-      <input type="text" name="search"  className=" rounded-xl text-lg  w-full pl-4    border-none focus:outline-none font-serif" placeholder='Message' value={message.message} onChange={(e)=>handleChange(e)} required/>
+      <input type="text" name="search" autoComplete={false}  className=" rounded-xl text-lg  w-full pl-4    border-none focus:outline-none font-serif" placeholder='Message' value={message.message} onChange={(e)=>handleChange(e)} required/>
       <MdAttachFile className="text-2xl m-4 text-black" />
       </div>
       <BsFillSendFill className="text-4xl text-black" onClick={sendMessage} />
