@@ -2,7 +2,7 @@ import React,{useState,useEffect,useRef} from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { parseJwt } from '../../util/jwtParser';
-
+import MessageInput from './MessageInput';
 
 const Message = ({group,openJoinGroupModal,socket,userInfo}) => {
 
@@ -111,7 +111,7 @@ const Message = ({group,openJoinGroupModal,socket,userInfo}) => {
       },[messages])
   
   return (
-    
+     
     <div className="m-4 p-4 flex flex-col gap-5">
       {
        group ? messages.length > 0 && messages.map((message,index)=>{

@@ -4,10 +4,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { IoIosChatbubbles } from "react-icons/io";
+import { useUserInfo } from '../../Context/UserContext';
 
 const Signin = () => {
     
   const navigate = useNavigate();
+
+  const {setUserInfo} = useUserInfo()
       
   const [user,setUser] = useState({
     email:"",
@@ -18,7 +21,6 @@ const Signin = () => {
         ...user,
         [e.target.name]:e.target.value
       })
-       console.log(user)
   }
   const handleSubmit = async (e)=>{
     e.preventDefault();
@@ -47,8 +49,9 @@ const Signin = () => {
         progress: undefined,
         theme: "dark",
         });
-      window.localStorage.setItem('token',JSON.stringify(response.data.token))  
-      console.log(response.data.token)
+      window.localStorage.setItem('token',JSON.stringify(response.data.token))
+      console.log(response.data.user.id,response.data.user.name)
+      setUserInfo({userId:response.data.user.id,userName:response.data.user.name})
       navigate("/home");
     }
     catch(error){

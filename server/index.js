@@ -64,6 +64,10 @@ io.on("connection", (socket) => {
     io.to(group).emit('message', message);
   })
 
+  socket.on('image-preview',(data)=>{
+       console.log(data)
+  })
+
 });
 
 

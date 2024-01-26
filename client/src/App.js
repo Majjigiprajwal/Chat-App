@@ -10,7 +10,6 @@ import Home from './pages/Home';
 
 function App() {
 
-  
   Modal.setAppElement("#root");
 
   return (

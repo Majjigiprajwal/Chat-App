@@ -19,9 +19,9 @@ exports.getUser = async(req,res,next)=>{
         return res.status(401).json({success:false, error: 'Password incorrect' })
        }
         
-       const token = jwt.sign({userId : user.id,premium:user.isPremium},secret,{ expiresIn: '1d' })
+       const token = jwt.sign({userId:user.id,userName:user.name},secret,{ expiresIn: '1d' })
  
-       return res.status(200).json({success:true, message: 'Login successful',token : token});
+       return res.status(200).json({success:true, message: 'Login successful',token : token,user:user});
     }
     catch(error){
         return res.status(500).json({success:false, error: 'Internal Server Error' });  

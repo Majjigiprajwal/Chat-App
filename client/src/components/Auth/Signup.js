@@ -118,10 +118,10 @@ const Signup = () => {
         </div>
 
         <div className="mt-7 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={(e)=>{handleSubmit(e)}}>
+          <form className="space-y-6 font-serif" onSubmit={(e)=>{handleSubmit(e)}}>
 
           <div>
-              <label htmlFor="name" className="block text-lg font-bold leading-6 text-[#05386b]">
+              <label htmlFor="name" className="block  font-bold leading-6 text-[#05386b]">
                 Full Name
               </label>
               <div className="mt-2">
@@ -134,7 +134,7 @@ const Signup = () => {
                     handleChange(e)
                   }}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 px-1.5 text-xl font-semibold text-black shadow-sm ring-1 ring-inset  placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1 px-1.5 text-black text-lg shadow-sm ring-1 ring-inset placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 mb:text-xl"
                 />
               </div>
             </div>
@@ -153,7 +153,7 @@ const Signup = () => {
                     handleChange(e)
                   }}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 px-1.5  text-xl font-semibold text-black shadow-sm ring-1 ring-inset placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1 px-1.5 text-black text-lg shadow-sm ring-1 ring-inset placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 mb:text-xl"
                 />
               </div>
             </div>
@@ -173,7 +173,7 @@ const Signup = () => {
                     handleChange(e)
                   }}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 px-1.5 text-xl font-semibold text-black shadow-sm ring-1 ring-inset  placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1 px-1.5 text-black text-lg shadow-sm ring-1 ring-inset placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 mb:text-xl"
                 />
               </div>
             </div>
@@ -193,7 +193,7 @@ const Signup = () => {
                     handleChange(e)
                   }}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 px-1.5 text-xl font-semibold text-black shadow-sm ring-1 ring-inset  placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1 px-1.5 text-black text-lg shadow-sm ring-1 ring-inset placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 mb:text-xl"
                 />
               </div>
             </div>
