@@ -4,6 +4,7 @@ const express = require('express');
 const sequelize = require('./util/database')
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const CronJob = require('./services/cron')
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const { Server } = require("socket.io");
@@ -17,12 +18,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 app.use(cookieParser())
+CronJob.job.start()
 
 const User = require('./Models/user');
 const Message = require('./Models/message')
 const Group = require('./Models/group')
 const GroupMember = require('./Models/groupMember')
-
+const ArchivedMessage = require('./Models/archivedMessage')
 
 const userRoutes = require('./Routes/user');
 const messageRoutes = require('./Routes/message')

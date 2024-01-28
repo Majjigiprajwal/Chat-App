@@ -1,11 +1,9 @@
-const Sequelize = require ('sequelize');
-
+const Sequelize  = require('sequelize');
 const sequelize = require('../util/database');
 
-const message = sequelize.define('message',{
+const archivedMessage = sequelize.define('archivedMessage',{
   id : {
     type : Sequelize.INTEGER,
-    autoIncrement : true,
     allowNull:false,
     primaryKey:true
   },
@@ -20,11 +18,19 @@ const message = sequelize.define('message',{
   date_time :{
     type : Sequelize.DATE,
     defaultValue : Sequelize.literal('CURRENT_TIMESTAMP'),
-  }
+  },
+  userId:{
+    type : Sequelize.INTEGER,
+    allowNull:false,
+  },
+  groupId:{
+    type : Sequelize.INTEGER,
+    allowNull:false,
+  },
 },
-{
-  timestamps : false
-}
+  {
+    timestamps : false
+  }
 )
 
-module.exports = message;
+module.exports = archivedMessage;
