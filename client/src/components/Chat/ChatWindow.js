@@ -19,15 +19,12 @@ const ChatWindow = ({group,openJoinGroupModal,socket}) => {
  },[token])
 
   return (
-    <div className="flex flex-col w-full h-full no-scrollbar">
-      <div className="w-full h-14">
+    <div className="flex flex-col w-full h-screen no-scrollbar">
+      <div className="w-full h-16">
         <ChatHeader group={group} />
       </div>
-      <div className="w-full h-5/6 overflow-hidden overflow-y-auto pl-6 pr-6 mt-1 ">
+      <div className="w-full h-[90%]">
       <Message group={group} openJoinGroupModal={openJoinGroupModal} socket={socket} userInfo={userInfo}/>
-      </div>
-      <div className="w-full h-1/6 flex justify-center items-center">
-      <MessageInput  group={group} socket={socket} userInfo={userInfo} />
       </div>
     </div>
   )

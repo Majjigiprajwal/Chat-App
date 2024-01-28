@@ -1,3 +1,5 @@
+const dotenv = require('dotenv')
+dotenv.config()
 const express = require('express');
 const sequelize = require('./util/database')
 const bodyParser = require('body-parser');
@@ -64,8 +66,8 @@ io.on("connection", (socket) => {
     io.to(group).emit('message', message);
   })
 
-  socket.on('image-preview',(data)=>{
-       console.log(data)
+  socket.on('group-image',(image,group)=>{
+       io.to(group).emit('image',image)
   })
 
 });

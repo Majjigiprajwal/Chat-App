@@ -12,6 +12,10 @@ const message = sequelize.define('message',{
   message:{
     type:Sequelize.STRING,
     allowNull: false
+  },
+  fileType :{
+    type :Sequelize.STRING,
+    allowNull :false
   }
 })
 
