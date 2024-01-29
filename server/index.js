@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 const http = require('http');
 const { Server } = require("socket.io");
 
+const PORT = process.env.PORT
+
 const app = express();
 
 const server = http.createServer(app)
@@ -25,20 +27,28 @@ const Message = require('./Models/message')
 const Group = require('./Models/group')
 const GroupMember = require('./Models/groupMember')
 const ArchivedMessage = require('./Models/archivedMessage')
+const PasswordRequests = require('./Models/forgotPassword')
+
 
 const userRoutes = require('./Routes/user');
 const messageRoutes = require('./Routes/message')
 const groupRoutes = require('./Routes/group')
+const forgotPasswordRoutes = require('./Routes/forgotPasssword')
 
 app.use(userRoutes)
 app.use(messageRoutes)
 app.use(groupRoutes)
+app.use(forgotPasswordRoutes)
 
 Message.belongsTo(User)
 User.hasMany(Message)
 
 Message.belongsTo(Group)
 Group.hasMany(Message)
+
+User.hasMany(PasswordRequests,{foreignKey : 'userId'});
+PasswordRequests.belongsTo(User,{foreignKey : 'userId'});
+
 
 User.hasMany(Group,{foreignKey:'admin'})
 Group.belongsTo(User,{foreignKey:'admin'})
@@ -52,7 +62,7 @@ GroupMember.belongsTo(Group)
 GroupMember.belongsTo(User);
 
 const io = new Server(server, {
-  cors: {origin:"http://localhost:3000", methods: ["GET", "POST"]},
+  cors: {origin:"http://group-chat-application.s3-website-us-east-1.amazonaws.com", methods: ["GET", "POST"]},
 });
 
 
@@ -77,7 +87,7 @@ io.on("connection", (socket) => {
 
 sequelize.sync()
   .then((result)=>{
-    server.listen(4000,()=>{
+    server.listen(PORT,()=>{
         console.log('running')
     })
   })

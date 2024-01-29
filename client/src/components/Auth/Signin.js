@@ -57,7 +57,7 @@ const Signin = () => {
     catch(error){
      if(error?.response?.status === 401){
         toast.error("Password is incorrect", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -71,7 +71,7 @@ const Signin = () => {
 
       if(error?.response?.status === 404){
         toast.error("Please register for an account,",{
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -85,7 +85,7 @@ const Signin = () => {
       }
 
       toast.error("Could not login at the moment,please try after sometime",{
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

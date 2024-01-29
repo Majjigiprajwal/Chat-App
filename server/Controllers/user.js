@@ -2,7 +2,7 @@ const User = require('../Models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 8;
-const secret ='new-chat-app'
+const secret =process.env.SECRET
 
 exports.getUser = async(req,res,next)=>{
     const userData = req.body;

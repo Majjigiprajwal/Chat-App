@@ -20,7 +20,11 @@ const user = sequelize.define('user',{
   password :{
     type :Sequelize.STRING,
     allowNull:false
-  } 
+  },
+  phoneNumber :{
+     type:Sequelize.INTEGER,
+     allowNull:false
+  }
 })
 
 module.exports = user;

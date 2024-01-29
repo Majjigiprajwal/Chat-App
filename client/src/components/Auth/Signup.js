@@ -13,6 +13,7 @@ const Signup = () => {
     email:"",
     password:"",
     confirmPassword:"",
+    phoneNumber:'',
     isPremium:false
   })
 
@@ -27,7 +28,20 @@ const Signup = () => {
     e.preventDefault();
     if(user.name.trim()==="" || user.email.trim()==="" || user.password.trim()==="" || user.confirmPassword.trim()===""){
       toast.error('Fill all the details correctly', {
-        position: "top-right",
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+        return
+    }
+    else if(user.phoneNumber.length !== 10){
+      toast.error('Please enter valid phone  number', {
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -40,7 +54,7 @@ const Signup = () => {
     }
     else if(user.password !== user.confirmPassword){
       toast.error('Passwords do not match', {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -53,7 +67,7 @@ const Signup = () => {
     }
     else if(user.password.length < 8){
       toast.error('Passwords should be alteast 8 characters', {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -68,7 +82,7 @@ const Signup = () => {
       let response = await axios.post('http://localhost:4000/register',user);
       if(response.status === 201){
         toast.success('Account created successfully', {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -83,7 +97,7 @@ const Signup = () => {
     catch(error){
       if(error?.response?.status === 400){
         toast.error('Email already exists,Please try with different Email address',{
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -95,7 +109,7 @@ const Signup = () => {
           return
       }  
       toast.error("Could not signup at the moment,please try after sometime",{
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -117,14 +131,14 @@ const Signup = () => {
           </h2>
         </div>
 
-        <div className="mt-7 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6 font-serif" onSubmit={(e)=>{handleSubmit(e)}}>
 
           <div>
               <label htmlFor="name" className="block  font-bold leading-6 text-[#05386b]">
                 Full Name
               </label>
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="name"
                   name="name"
@@ -143,7 +157,7 @@ const Signup = () => {
               <label htmlFor="email" className="block text-lg font-bold leading-6 text-[#05386b]">
                 Email address
               </label>
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="email"
                   name="email"
@@ -159,12 +173,30 @@ const Signup = () => {
             </div>
 
             <div>
+              <label htmlFor="phoneNumber" className="block text-lg font-bold leading-6 text-[#05386b]">
+                Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  id="phoneNumberl"
+                  name="phoneNumber"
+                  type="phoneNumber"
+                  onChange={(e)=>{
+                    handleChange(e)
+                  }}
+                  required
+                  className="block w-full font-sans rounded-md border-0 py-1 px-1.5 text-black text-lg shadow-sm ring-1 ring-inset placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 mb:text-xl"
+                />
+              </div>
+            </div>
+
+            <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-lg font-bold leading-6 text-[#05386b]">
                   Password
                 </label>
               </div>
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="password"
                   name="password"
@@ -184,7 +216,7 @@ const Signup = () => {
                   Confirm Password
                 </label>
               </div>
-              <div className="mt-2">
+              <div className="mt-1">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
