@@ -8,3 +8,5 @@ const sequelize = new Sequelize(process.env.AWS_DATABASE_NAME,
 })
 
 module.exports = sequelize;
+
+

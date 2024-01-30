@@ -9,6 +9,10 @@ const groupMember = sequelize.define('groupMember',{
     allowNull:false,
     primaryKey:true
   },
+  role :{
+    type : Sequelize.STRING,
+    allowNull :false
+  }
 })
 
 module.exports = groupMember;

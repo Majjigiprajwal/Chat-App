@@ -58,11 +58,11 @@ const Home = () => {
         </div>
         <hr></hr>
         <div className="w-full h-14 pl-4 pr-4 mt-5 mb-3">
-        <SearchBar /> 
+        <SearchBar groups={groups} setGroups={setGroups} /> 
         </div>
         <hr></hr>
         <div className="w-full h-4/6 no-scrollbar"> 
-          <GroupList setGroup={setGroup} groups={groups} />
+          <GroupList setGroup={setGroup} groups={groups} setGroups={setGroups} />
           <CreateGroup openUpdateModal={openUpdateModal}/>
         </div> 
       </div>
@@ -70,7 +70,7 @@ const Home = () => {
          <ChatWindow  group={group} openJoinGroupModal={openJoinGroupModal} socket={socket}/>
       </div>
       <div className="w-1/5 h-screen bg-white">
-          <GroupDetails group={group} />
+          <GroupDetails group={group}  />
       </div>
       <Modal isOpen={isUpdateModal}  className="flex items-center justify-center h-screen w-full">
           <CreateGroups closeModal={closeModal} setGroups={setGroups} />

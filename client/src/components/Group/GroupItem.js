@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const GroupItem = ({group,setGroup}) => {
+const GroupItem = ({group,setGroup,setGroups,groups}) => {
 
   const selectGroup = (group)=>{
        setGroup(group)

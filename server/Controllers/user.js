@@ -2,6 +2,8 @@ const User = require('../Models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 8;
+const {Op} = require('sequelize')
+const GroupMember = require('../Models/groupMember')
 const secret =process.env.SECRET
 
 exports.getUser = async(req,res,next)=>{
