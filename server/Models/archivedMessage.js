@@ -15,10 +15,6 @@ const archivedMessage = sequelize.define('archivedMessage',{
     type :Sequelize.STRING,
     allowNull :false
   },
-  date_time :{
-    type : Sequelize.DATE,
-    defaultValue : Sequelize.literal('CURRENT_TIMESTAMP'),
-  },
   userId:{
     type : Sequelize.INTEGER,
     allowNull:false,

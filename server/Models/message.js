@@ -17,10 +17,6 @@ const message = sequelize.define('message',{
     type :Sequelize.STRING,
     allowNull :false
   },
-  date_time :{
-    type : Sequelize.DATE,
-    defaultValue : Sequelize.literal('CURRENT_TIMESTAMP'),
-  }
 },
 {
   timestamps : false
